@@ -30,19 +30,7 @@ temp/
 
 # IDE files
 .vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.swp
 
-# Dependency directories
-node_modules/
-jspm_packages/
-
-# TypeScript
-*.tsbuildinfo
 
 # Miscellaneous
 *.bak
