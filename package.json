@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }, 
+  "scripts": {
+    "start": "concurrently \"npm --prefix backend start\" \"npm --prefix jobly-frontend start\""
+  }
+}
