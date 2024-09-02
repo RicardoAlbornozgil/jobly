@@ -1,0 +1,54 @@
+/* LoadingSpinner.css */
+
+/* Container Styling */
+.LoadingSpinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay for contrast */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  backdrop-filter: blur(5px); /* Optional: adds a subtle blur effect */
+}
+
+/* Spinner Styling */
+.custom-spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #3498db; /* Soft vivid blue */
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 20px;
+}
+
+/* Spin Animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Loading Text Styling */
+.loading-text {
+  font-size: 1.2rem;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 1.5px;
+  animation: fadeIn 1.5s ease-in-out infinite;
+}
+
+/* Fade In Animation for Text */
+@keyframes fadeIn {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}

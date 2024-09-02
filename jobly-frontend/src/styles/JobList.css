@@ -1,0 +1,12 @@
+.JobList {
+    padding: 2rem 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+  }
+  
+  .JobList .lead {
+    font-size: 1.25rem;
+    color: #666; /* Slightly lighter text color */
+    text-align: center;
+  }
+  

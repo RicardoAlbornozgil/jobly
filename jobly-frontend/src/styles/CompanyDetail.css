@@ -1,0 +1,45 @@
+/* Container styling for the CompanyDetail component */
+.CompanyDetail {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2rem; /* Padding around the content */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-top: 2rem; /* Space above the component */
+  }
+  
+  /* Company name styling */
+  .CompanyDetail h4 {
+    font-size: 1.75rem; /* Larger font size for the company name */
+    font-weight: 600; /* Slightly bold to emphasize */
+    color: #343a40; /* Darker color for the title */
+    margin-bottom: 1rem; /* Space below the title */
+  }
+  
+  /* Company description styling */
+  .CompanyDetail p {
+    font-size: 1rem; /* Standard font size */
+    color: #6c757d; /* Muted text color for description */
+    line-height: 1.6; /* Improve readability */
+    margin-bottom: 2rem; /* Space below the description */
+  }
+  
+  /* Adjusting JobCardList inside CompanyDetail */
+  .CompanyDetail .JobCardList {
+    margin-top: 1.5rem; /* Add space above the JobCardList */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .CompanyDetail {
+      padding: 1rem; /* Reduce padding on smaller screens */
+    }
+  
+    .CompanyDetail h4 {
+      font-size: 1.5rem; /* Slightly smaller font size for mobile */
+    }
+  
+    .CompanyDetail p {
+      font-size: 0.9rem; /* Slightly smaller font size for mobile */
+    }
+  }
+  

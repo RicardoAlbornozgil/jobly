@@ -1,0 +1,57 @@
+.Navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-bottom: 2px solid #00000020;
+  padding: 0.5rem 2rem;
+  width: 100%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.navbar-brand {
+  text-decoration: none;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+}
+
+.app-name {
+  flex-grow: 1;
+  font-size: 1.25rem;
+  color: #007bff;
+}

@@ -1,0 +1,49 @@
+/* SearchForm.css */
+
+.SearchForm {
+  display: flex;
+  width: 100%;
+  justify-content: center; /* Center the form within the container */
+  margin-bottom: 2rem; /* Add some space below the search form */
+}
+
+form.form-inline {
+  display: flex;
+  width: 100%;
+  max-width: 600px; /* Limit the maximum width for better UX */
+  flex-direction: row;
+  justify-content: space-between; /* Distribute the space between input and button */
+  align-items: center; /* Center items vertically */
+}
+
+.SearchForm input {
+  flex-grow: 1; /* Allow the input to grow and fill available space */
+  margin-right: 1rem; /* Add space between the input and the button */
+  padding: 0.5rem 1rem; /* Add padding for better spacing */
+  font-size: 1rem; /* Set a consistent font size */
+  border-radius: 5px; /* Rounded corners for a modern look */
+  border: 1px solid #ced4da; /* Light border color */
+  transition: border-color 0.3s ease; /* Smooth transition for focus */
+}
+
+.SearchForm input:focus {
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Subtle blue shadow on focus */
+  border-color: #80bdff; /* Change border color on focus */
+}
+
+.SearchForm button {
+  padding: 0.5rem 1.5rem; /* Adjust button padding for a balanced look */
+  font-size: 1rem; /* Consistent font size with input */
+  border-radius: 5px; /* Match the button's border-radius with the input */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+}
+
+.SearchForm button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight scale up on hover */
+}
+
+.SearchForm button:active {
+  background-color: #004085; /* Even darker blue when active */
+  transform: scale(1); /* Reset to original size when active */
+}

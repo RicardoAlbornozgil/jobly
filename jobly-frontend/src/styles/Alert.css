@@ -1,0 +1,67 @@
+/* Alert Container */
+.alert {
+    padding: 15px 20px; /* Adjust padding for a comfortable spacing */
+    border-radius: 5px; /* Smooth corners */
+    margin-bottom: 20px; /* Space below the alert */
+    font-size: 0.9rem; /* Slightly smaller font size for alert text */
+    display: flex; /* Flexbox for better alignment */
+    align-items: center; /* Vertically center the content */
+  }
+  
+  /* Alert Text Styling */
+  .alert p {
+    margin: 0; /* Remove default margins */
+    font-weight: 500; /* Slightly bold text for readability */
+    color: #333; /* Dark gray text color for contrast */
+  }
+  
+  /* Specific Alert Type Colors */
+  .alert-danger {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text */
+    border-left: 5px solid #f5c6cb; /* Left border for emphasis */
+  }
+  
+  .alert-warning {
+    background-color: #fff3cd; /* Light yellow background */
+    color: #856404; /* Dark yellow text */
+    border-left: 5px solid #ffeeba; /* Left border for emphasis */
+  }
+  
+  .alert-success {
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Dark green text */
+    border-left: 5px solid #c3e6cb; /* Left border for emphasis */
+  }
+  
+  .alert-info {
+    background-color: #d1ecf1; /* Light blue background */
+    color: #0c5460; /* Dark blue text */
+    border-left: 5px solid #bee5eb; /* Left border for emphasis */
+  }
+  
+  /* Adding an icon for each alert type */
+  .alert-danger::before {
+    content: "⚠️";
+    margin-right: 10px; /* Space between icon and text */
+    font-size: 1.2rem;
+  }
+  
+  .alert-warning::before {
+    content: "⚠️";
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .alert-success::before {
+    content: "✅";
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .alert-info::before {
+    content: "ℹ️";
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  

@@ -1,0 +1,97 @@
+/* App.css */
+
+body {
+  background-image: url('/images/jobly-background.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #333;
+}
+
+/* Button Styling */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Button Hover Effect */
+.btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Button Focus Effect */
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Active Effect */
+.btn:active {
+  background-color: #004085;
+  transform: scale(1);
+}
+
+/* Disabled Button */
+.btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+
+/* Global Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f8f9fa; /* Background of the scrollbar track */
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #343a40; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the thumb */
+  border: 3px solid #f8f9fa; /* Adds a gap between the thumb and the track */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #495057; /* Darker color on hover for better visibility */
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: #212529; /* Even darker color when active */
+}
+
+/* Firefox Scrollbar Styling */
+* {
+  scrollbar-width: thin; /* Makes the scrollbar thinner */
+  scrollbar-color: #343a40 #f8f9fa; /* Thumb color and track color */
+}
+
+/* Scrollbar for CompanyDetail only */
+.CompanyDetail {
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+  max-height: 80vh; /* Set a max height to allow scrolling */
+}
+
+/* Ensures smooth scrolling for a better user experience */
+html {
+  scroll-behavior: smooth;
+}

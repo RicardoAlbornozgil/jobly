@@ -1,0 +1,112 @@
+.profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ProfileForm-container {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  width: 80%;
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+}
+
+.ProfileForm-card {
+  background-color: #f0f0f0;
+  border-radius: 12px; /* Rounded corners for a modern feel */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Consistent shadow for depth */
+  padding: 2rem;
+  width: 90%;
+}
+
+h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f0f0f0; /* Lighter text color to match overall theme */
+  background-color: rgba(0, 0, 0, 0.6); /* Dark overlay for the title background */
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.form-group {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+
+.form-group label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+  margin-right: .5rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ced4da; /* Light grey border */
+  background-color: rgba(255, 255, 255, 0.8); /* Slight transparency for input background */
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.ProfileForm .form-group input:focus {
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle shadow on focus */
+  outline: none;
+}
+
+.ProfileForm .form-control-plaintext {
+  padding-left: 0;
+  font-weight: bold;
+  color: #f0f0f0; /* Lighter text color */
+}
+
+.ProfileForm .btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #007bff; /* Primary blue button */
+  border: none;
+  border-radius: 4px;
+  color: #fff; /* White text */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.ProfileForm .btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+.ProfileForm .btn:disabled {
+  background-color: #cccccc; /* Light gray when disabled */
+  cursor: not-allowed;
+}
+
+.ProfileForm .Alert {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+  color: #ff6961; /* Light red for error messages */
+}
+
+.ProfileForm .Alert p {
+  margin-bottom: 0;
+  color: inherit; /* Ensures inherited color from .Alert */
+}
