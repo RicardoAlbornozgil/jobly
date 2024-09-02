@@ -8,6 +8,7 @@
     "backend-start": "npm --prefix backend run start",
     "frontend-start": "npm --prefix jobly-frontend run start",
     "build": "npm run build-backend && npm run build-frontend",
+    "build-backend": "echo 'No build needed for backend'",
     "build-frontend": "npm --prefix jobly-frontend run build"
   },
   "devDependencies": {
