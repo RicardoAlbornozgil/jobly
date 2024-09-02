@@ -1,8 +1,12 @@
 {
+  "name": "jobly-root",
+  "version": "1.0.0",
+  "private": true,
   "dependencies": {
     "concurrently": "^8.2.2"
-  }, 
+  },
   "scripts": {
-    "start": "concurrently \"npm --prefix backend start\" \"npm --prefix jobly-frontend start\""
+    "start": "concurrently \"npm --prefix backend run start\" \"npm --prefix jobly-frontend run start\"",
+    "build": "npm --prefix jobly-frontend run build"
   }
 }
