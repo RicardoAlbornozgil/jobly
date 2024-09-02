@@ -1,12 +1,13 @@
 "use strict";
 /** Database setup for jobly. */
+
 const { createClient } = require("@supabase/supabase-js");
-const { getDatabaseUri, getSupabaseUrl, getSupabaseAnonKey } = require("./config");
+const { getDatabaseUri, SUPABASE_URL, SUPABASE_ANON_KEY } = require("./config");
 
 let db;
 
 if (process.env.NODE_ENV === "production") {
-  db = createClient(getSupabaseUrl(), getSupabaseAnonKey());
+  db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 } else {
   const { Client } = require("pg");
   db = new Client({
