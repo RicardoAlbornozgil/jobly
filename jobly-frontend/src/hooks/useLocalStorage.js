@@ -16,7 +16,14 @@ import { useState, useEffect } from "react";
  */
 
 function useLocalStorage(key, firstValue = null) {
-  const initialValue = JSON.parse(localStorage.getItem(key)) || firstValue;
+  const initialValue = () => {
+    try {
+      return JSON.parse(localStorage.getItem(key)) || firstValue;
+    } catch (err) {
+      console.error("Error parsing localStorage item", err);
+      return firstValue;
+    }
+  };
 
   const [item, setItem] = useState(initialValue);
 
@@ -26,12 +33,15 @@ function useLocalStorage(key, firstValue = null) {
     if (item === null) {
       localStorage.removeItem(key);
     } else {
-      localStorage.setItem(key, JSON.stringify(item));
+      try {
+        localStorage.setItem(key, JSON.stringify(item));
+      } catch (err) {
+        console.error("Error stringifying localStorage item", err);
+      }
     }
   }, [key, item]);
 
   return [item, setItem];
 }
-
 
 export default useLocalStorage;
