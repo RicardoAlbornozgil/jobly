@@ -27,9 +27,6 @@ app.use("/companies", companiesRoutes);
 app.use("/users", usersRoutes);
 app.use("/jobs", jobsRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Welcome to the Jobly API. The frontend is running separately.");
-});
 
 
 /** Handle 404 errors -- this matches everything */

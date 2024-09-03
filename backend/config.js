@@ -10,8 +10,8 @@ const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
 const PORT = +process.env.PORT || 3001;
 
 // Supabase configuration
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const SUPABASE_URL = process.env.SUPABASE_URL || "https://qisclgwyzazhnpbnhfgv.supabase.co";
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFpc2NsZ3d5emF6aG5wYm5oZmd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUyMzIyODAsImV4cCI6MjA0MDgwODI4MH0.7_UG5-RvHZVYE_HSeiAn3yuj6cPbbTtKbLHfC0mQVsk";
 
 // Use dev database, testing database, or via env var, production database
 function getDatabaseUri() {
