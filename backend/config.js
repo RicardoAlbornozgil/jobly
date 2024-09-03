@@ -15,9 +15,7 @@ const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIs
 
 // Use dev database, testing database, or via env var, production database
 function getDatabaseUri() {
-  return (process.env.NODE_ENV === "test")
-      ? "jobly_test"
-      : process.env.DATABASE_URL || "jobly";
+  return process.env.DATABASE_URL || (process.env.NODE_ENV === "test" ? "jobly_test" : "jobly");
 }
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
