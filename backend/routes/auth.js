@@ -29,6 +29,11 @@ router.post("/token", async function (req, res, next) {
 
     const { username, password } = req.body;
     const user = await User.authenticate(username, password);
+
+    if (!user) {
+      throw new BadRequestError("Invalid credentials");
+    }
+
     const token = createToken(user);
     return res.json({ token });
   } catch (err) {

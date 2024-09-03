@@ -71,9 +71,19 @@ class JoblyApi {
 
   /** Get a token for login from username and password. */
   static async login(data) {
-    const res = await this.request(`auth/token`, data, "post");
-    return res.token;
+    try {
+      const res = await this.request(`auth/token`, data, "post");
+      if (res.token) {
+        this.token = res.token;
+        return { success: true, token: res.token };
+      } else {
+        return { success: false, errors: res.errors || ["Login failed"] };
+      }
+    } catch (errors) {
+      return { success: false, errors };
+    }
   }
+  
   /** Register a new user. */
   static async signup(data) {
     try {
