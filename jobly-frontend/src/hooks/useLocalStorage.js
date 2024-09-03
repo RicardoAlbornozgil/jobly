@@ -16,9 +16,11 @@ import { useState, useEffect } from "react";
  */
 
 function useLocalStorage(key, firstValue = null) {
+  // Initial value function to handle JSON parsing
   const initialValue = () => {
     try {
-      return JSON.parse(localStorage.getItem(key)) || firstValue;
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : firstValue;
     } catch (err) {
       console.error("Error parsing localStorage item", err);
       return firstValue;

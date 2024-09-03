@@ -77,10 +77,11 @@ class JoblyApi {
         this.token = res.token;
         return { success: true, token: res.token };
       } else {
-        return { success: false, errors: res.errors || ["Login failed"] };
+        return { success: false, errors: ["Login failed"] };
       }
-    } catch (errors) {
-      return { success: false, errors };
+    } catch (err) {
+      const errors = err.response?.data?.error?.message || ["An unexpected error occurred."];
+      return { success: false, errors: Array.isArray(errors) ? errors : [errors] };
     }
   }
   
@@ -88,12 +89,17 @@ class JoblyApi {
   static async signup(data) {
     try {
       const res = await this.request(`auth/register`, data, "post");
-      return { success: true, token: res.token };
-    } catch (errors) {
-      return { success: false, errors };
+      if (res.token) {
+        this.token = res.token;
+        return { success: true, token: res.token };
+      } else {
+        return { success: false, errors: ["Signup failed"] };
+      }
+    } catch (err) {
+      const errors = err.response?.data?.error?.message || ["An unexpected error occurred."];
+      return { success: false, errors: Array.isArray(errors) ? errors : [errors] };
     }
   }
-
 
   /** Save user profile data for a specific user. */
   static async saveProfile(username, data) {
