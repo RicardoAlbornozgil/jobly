@@ -41,10 +41,8 @@ function App() {
 
     /** Fetch current user information based on JWT token. */
     async function getCurrentUser() {
-      // Only proceed if the token is a valid string
       if (token && typeof token === "string") {
         try {
-          // Decode token to get the username
           const decodedToken = jwt.decode(token);
           if (decodedToken) {
             const { username } = decodedToken; // Destructure username from the decoded token
