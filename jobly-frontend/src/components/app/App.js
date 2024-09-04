@@ -20,7 +20,7 @@ export const TOKEN_STORAGE_ID = "jobly-token";
  * - currentUser: user obj from API. This becomes the canonical way to tell
  *   if someone is logged in. This is passed around via context throughout app.
  *
- * - token: for logged in users, this is their authentication JWT.
+ * - token: for logged-in users, this is their authentication JWT.
  *   Is required to be set for most API calls. This is initially read from
  *   localStorage and synced to there via the useLocalStorage hook.
  *
@@ -44,7 +44,7 @@ function App() {
     console.debug("App useEffect loadUserInfo", "token=", token);
 
     async function getCurrentUser() {
-      if (token && token.success !== false) {
+      if (token && typeof token === "string") {
         try {
           const decodedToken = jwt.decode(token);
           if (decodedToken) {
@@ -80,8 +80,13 @@ function App() {
   async function signup(signupData) {
     try {
       let token = await JoblyApi.signup(signupData);
-      setToken(token);
-      return { success: true };
+      if (token && typeof token === "string") {
+        setToken(token);
+        return { success: true };
+      } else {
+        console.error("signup failed: invalid token format");
+        return { success: false, errors: ["Invalid token format"] };
+      }
     } catch (errors) {
       console.error("signup failed", errors);
       return { success: false, errors };
@@ -91,8 +96,13 @@ function App() {
   async function login(loginData) {
     try {
       let token = await JoblyApi.login(loginData);
-      setToken(token);
-      return { success: true };
+      if (token && typeof token === "string") {
+        setToken(token);
+        return { success: true };
+      } else {
+        console.error("login failed: invalid token format");
+        return { success: false, errors: ["Invalid token format"] };
+      }
     } catch (errors) {
       console.error("login failed", errors);
       return { success: false, errors };
