@@ -14,74 +14,79 @@ export const TOKEN_STORAGE_ID = "jobly-token";
 
 /** Jobly application.
  *
- * - infoLoaded: has user data been pulled from API?
- *   (this manages spinner for "loading...")
+ * This component handles the main logic for managing the app's state and
+ * authentication. It also sets up routes and manages the global user context.
  *
- * - currentUser: user obj from API. This becomes the canonical way to tell
- *   if someone is logged in. This is passed around via context throughout app.
+ * - infoLoaded: boolean to track if user data has been fetched from API.
+ * - currentUser: holds the logged-in user's data.
+ * - token: JWT token for authenticated API requests. Synced with localStorage.
  *
- * - token: for logged-in users, this is their authentication JWT.
- *   Is required to be set for most API calls. This is initially read from
- *   localStorage and synced to there via the useLocalStorage hook.
- *
- * App -> Routes
+ * The app consists of:
+ * - Routes: manages routing between different pages.
+ * - Navigation: renders the navigation bar with the current user context.
  */
-
 function App() {
-  const [infoLoaded, setInfoLoaded] = useState(false);
-  const [applicationIds, setApplicationIds] = useState(new Set([]));
-  const [currentUser, setCurrentUser] = useState(null);
-  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+  const [infoLoaded, setInfoLoaded] = useState(false); // Track if user info is loaded
+  const [applicationIds, setApplicationIds] = useState(new Set([])); // Holds applied job IDs
+  const [currentUser, setCurrentUser] = useState(null); // Stores current user info
+  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID); // JWT token, synced with localStorage
 
-  console.debug(
-    "App",
-    "infoLoaded=", infoLoaded,
-    "currentUser=", currentUser,
-    "token=", token,
-  );
+  console.debug("App", "infoLoaded=", infoLoaded, "currentUser=", currentUser, "token=", token);
 
+  /** Load user info from API on token change.
+   *  Runs only when token changes (e.g., login, signup, or logout).
+   */
   useEffect(function loadUserInfo() {
     console.debug("App useEffect loadUserInfo", "token=", token);
 
+    /** Fetch current user information based on JWT token. */
     async function getCurrentUser() {
+      // Only proceed if the token is a valid string
       if (token && typeof token === "string") {
         try {
+          // Decode token to get the username
           const decodedToken = jwt.decode(token);
           if (decodedToken) {
-            let { username } = decodedToken;
-            JoblyApi.token = token;
-            let currentUser = await JoblyApi.getCurrentUser(username);
-            setCurrentUser(currentUser);
-            setApplicationIds(new Set(currentUser.applications));
+            const { username } = decodedToken; // Destructure username from the decoded token
+            JoblyApi.token = token; // Set the token in API for authenticated requests
+            let currentUser = await JoblyApi.getCurrentUser(username); // Fetch user info from API
+            setCurrentUser(currentUser); // Set current user state
+            setApplicationIds(new Set(currentUser.applications)); // Store applied job IDs
           } else {
             console.error("Invalid token: Could not decode.");
-            setCurrentUser(null);
+            setCurrentUser(null); // Reset user state on invalid token
           }
         } catch (err) {
-          console.error("App loadUserInfo: problem loading", err);
-          setCurrentUser(null);
+          console.error("App loadUserInfo: error loading user data", err);
+          setCurrentUser(null); // Reset user state on error
         }
       } else {
         console.error("Invalid or missing token.");
-        setCurrentUser(null);
+        setCurrentUser(null); // Reset user state if no token
       }
-      setInfoLoaded(true);
+      setInfoLoaded(true); // Mark user data as loaded (even if an error occurs)
     }
 
-    setInfoLoaded(false);
-    getCurrentUser();
+    setInfoLoaded(false); // Reset loading state before fetching data
+    getCurrentUser(); // Fetch the user data
   }, [token]);
 
+  /** Logs the user out by clearing the user state and token. */
   function logout() {
     setCurrentUser(null);
     setToken(null);
   }
 
+  /** Handles user signup. 
+   * 
+   * @param {Object} signupData - The user data for signup
+   * @returns {Object} - Success status and possible errors
+   */
   async function signup(signupData) {
     try {
       let token = await JoblyApi.signup(signupData);
       if (token && typeof token === "string") {
-        setToken(token);
+        setToken(token); // Store the token in localStorage
         return { success: true };
       } else {
         console.error("signup failed: invalid token format");
@@ -93,11 +98,16 @@ function App() {
     }
   }
 
+  /** Handles user login. 
+   * 
+   * @param {Object} loginData - The user data for login
+   * @returns {Object} - Success status and possible errors
+   */
   async function login(loginData) {
     try {
       let token = await JoblyApi.login(loginData);
       if (token && typeof token === "string") {
-        setToken(token);
+        setToken(token); // Store the token in localStorage
         return { success: true };
       } else {
         console.error("login failed: invalid token format");
@@ -109,16 +119,26 @@ function App() {
     }
   }
 
+  /** Checks if the user has already applied to a job by its ID. 
+   * 
+   * @param {Number} id - Job ID
+   * @returns {Boolean} - True if job has been applied to, otherwise false
+   */
   function hasAppliedToJob(id) {
-    return applicationIds.has(id);
+    return applicationIds.has(id); // Return true if the job ID is in the applied jobs set
   }
 
+  /** Apply to a job and update the application IDs state. 
+   * 
+   * @param {Number} id - Job ID
+   */
   function applyToJob(id) {
-    if (hasAppliedToJob(id)) return;
-    JoblyApi.applyToJob(currentUser.username, id);
-    setApplicationIds(new Set([...applicationIds, id]));
+    if (hasAppliedToJob(id)) return; // If already applied, do nothing
+    JoblyApi.applyToJob(currentUser.username, id); // Make API call to apply
+    setApplicationIds(new Set([...applicationIds, id])); // Add job ID to application IDs set
   }
 
+  // Display a loading spinner while user info is being fetched
   if (!infoLoaded) return <LoadingSpinner />;
 
   return (
