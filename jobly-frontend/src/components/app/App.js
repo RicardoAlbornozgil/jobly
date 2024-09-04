@@ -7,7 +7,7 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import JoblyApi from "../../api/api";
 import UserContext from "../auth/UserContext";
 import jwt from "jsonwebtoken";
-import "../../styles/App.css"
+import "../../styles/App.css";
 
 // Key name for storing token in localStorage for "remember me" re-login
 export const TOKEN_STORAGE_ID = "jobly-token";
@@ -27,7 +27,6 @@ export const TOKEN_STORAGE_ID = "jobly-token";
  * App -> Routes
  */
 
-
 function App() {
   const [infoLoaded, setInfoLoaded] = useState(false);
   const [applicationIds, setApplicationIds] = useState(new Set([]));
@@ -35,10 +34,10 @@ function App() {
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
 
   console.debug(
-      "App",
-      "infoLoaded=", infoLoaded,
-      "currentUser=", currentUser,
-      "token=", token,
+    "App",
+    "infoLoaded=", infoLoaded,
+    "currentUser=", currentUser,
+    "token=", token,
   );
 
   // Load user info from API. Until a user is logged in and they have a token,
@@ -51,12 +50,18 @@ function App() {
     async function getCurrentUser() {
       if (token) {
         try {
-          let { username } = jwt.decode(token);
-          // put the token on the Api class so it can use it to call the API.
-          JoblyApi.token = token;
-          let currentUser = await JoblyApi.getCurrentUser(username);
-          setCurrentUser(currentUser);
-          setApplicationIds(new Set(currentUser.applications));
+          const decodedToken = jwt.decode(token);
+          if (decodedToken) {
+            let { username } = decodedToken;
+            // Put the token on the Api class so it can use it to call the API.
+            JoblyApi.token = token;
+            let currentUser = await JoblyApi.getCurrentUser(username);
+            setCurrentUser(currentUser);
+            setApplicationIds(new Set(currentUser.applications));
+          } else {
+            console.error("Invalid token: Could not decode.");
+            setCurrentUser(null);
+          }
         } catch (err) {
           console.error("App loadUserInfo: problem loading", err);
           setCurrentUser(null);
@@ -65,9 +70,9 @@ function App() {
       setInfoLoaded(true);
     }
 
-    // set infoLoaded to false while async getCurrentUser runs; once the
+    // Set infoLoaded to false while async getCurrentUser runs; once the
     // data is fetched (or even if an error happens!), this will be set back
-    // to false to control the spinner.
+    // to true to control the spinner.
     setInfoLoaded(false);
     getCurrentUser();
   }, [token]);
@@ -125,15 +130,15 @@ function App() {
   if (!infoLoaded) return <LoadingSpinner />;
 
   return (
-      <BrowserRouter>
-        <UserContext.Provider
-            value={{ currentUser, setCurrentUser, hasAppliedToJob, applyToJob }}>
-          <div className="App">
-            <Navigation logout={logout} />
-            <Routes login={login} signup={signup} />
-          </div>
-        </UserContext.Provider>
-      </BrowserRouter>
+    <BrowserRouter>
+      <UserContext.Provider
+        value={{ currentUser, setCurrentUser, hasAppliedToJob, applyToJob }}>
+        <div className="App">
+          <Navigation logout={logout} />
+          <Routes login={login} signup={signup} />
+        </div>
+      </UserContext.Provider>
+    </BrowserRouter>
   );
 }
 
