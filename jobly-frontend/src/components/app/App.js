@@ -49,13 +49,19 @@ function App() {
     console.debug("App useEffect loadUserInfo", "token=", token);
 
     async function getCurrentUser() {
-      if (token) {
+      if (token && token.success !== false) {
         try {
-          const { username } = jwt.decode(token);
-          JoblyApi.token = token;
-          const currentUser = await JoblyApi.getCurrentUser(username);
-          setCurrentUser(currentUser);
-          setApplicationIds(new Set(currentUser.applications));
+          const decodedToken = jwt.decode(token);
+          if (decodedToken) {
+            const { username } = decodedToken;
+            JoblyApi.token = token;
+            const currentUser = await JoblyApi.getCurrentUser(username);
+            setCurrentUser(currentUser);
+            setApplicationIds(new Set(currentUser.applications));
+          } else {
+            console.error("Token decoding failed");
+            setCurrentUser(null);
+          }
         } catch (err) {
           console.error("App loadUserInfo: problem loading", err);
           setCurrentUser(null);
@@ -63,6 +69,7 @@ function App() {
       }
       setInfoLoaded(true);
     }
+    
 
     setInfoLoaded(false);
     getCurrentUser();

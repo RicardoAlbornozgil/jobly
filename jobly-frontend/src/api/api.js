@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const BASE_URL = process.env.REACT_APP_API_URL || 'https://jobly-backend-b589.onrender.com';
 
 /** API Class.
  *
@@ -23,11 +23,12 @@ class JoblyApi {
    */
   static async request(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, data, method);
-
-    const url = `${BASE_URL}/${endpoint}`;
+  
+    // Ensure there is no double slash in the URL
+    const url = `${BASE_URL}/${endpoint}`.replace(/\/{2,}/g, '/');
     const headers = { Authorization: `Bearer ${JoblyApi.token}` };
     const params = method === "get" ? data : {};
-
+  
     try {
       const response = await axios({ url, method, data, params, headers });
       return response.data;
@@ -37,6 +38,7 @@ class JoblyApi {
       throw Array.isArray(message) ? message : [message];
     }
   }
+  
 
   // Individual API routes
 
@@ -77,13 +79,14 @@ class JoblyApi {
         this.token = res.token;
         return { success: true, token: res.token };
       } else {
-        return { success: false, errors: ["Login failed"] };
+        return { success: false, errors: res.errors || ["Login failed"] };
       }
     } catch (err) {
-      const errors = err.response?.data?.error?.message || ["An unexpected error occurred."];
-      return { success: false, errors: Array.isArray(errors) ? errors : [errors] };
+      console.error("Login API error:", err.response || err.message);
+      return { success: false, errors: [err.message || "Login failed"] };
     }
   }
+  
   
   /** Register a new user. */
   static async signup(data) {
@@ -96,10 +99,12 @@ class JoblyApi {
         return { success: false, errors: ["Signup failed"] };
       }
     } catch (err) {
-      const errors = err.response?.data?.error?.message || ["An unexpected error occurred."];
+      const errors = err.response?.data?.error?.message || err.response?.data || "An unexpected error occurred.";
+      console.error("Signup API error:", errors);
       return { success: false, errors: Array.isArray(errors) ? errors : [errors] };
     }
   }
+
 
   /** Save user profile data for a specific user. */
   static async saveProfile(username, data) {
