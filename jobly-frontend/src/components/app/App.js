@@ -27,41 +27,36 @@ export const TOKEN_STORAGE_ID = "jobly-token";
  * App -> Routes
  */
 
+
 function App() {
   const [infoLoaded, setInfoLoaded] = useState(false);
-  const [applicationIds, setApplicationIds] = useState(new Set());
+  const [applicationIds, setApplicationIds] = useState(new Set([]));
   const [currentUser, setCurrentUser] = useState(null);
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
 
   console.debug(
-    "App",
-    "infoLoaded=", infoLoaded,
-    "currentUser=", currentUser,
-    "token=", token,
+      "App",
+      "infoLoaded=", infoLoaded,
+      "currentUser=", currentUser,
+      "token=", token,
   );
 
-  /** Load user info from API.
-   *
-   * This runs when the token changes, indicating that the user has logged in
-   * or logged out. It only needs to re-run when a user logs out or logs in.
-   */
-  useEffect(() => {
+  // Load user info from API. Until a user is logged in and they have a token,
+  // this should not run. It only needs to re-run when a user logs out, so
+  // the value of the token is a dependency for this effect.
+
+  useEffect(function loadUserInfo() {
     console.debug("App useEffect loadUserInfo", "token=", token);
 
     async function getCurrentUser() {
-      if (token && token.success !== false) {
+      if (token) {
         try {
-          const decodedToken = jwt.decode(token);
-          if (decodedToken) {
-            const { username } = decodedToken;
-            JoblyApi.token = token;
-            const currentUser = await JoblyApi.getCurrentUser(username);
-            setCurrentUser(currentUser);
-            setApplicationIds(new Set(currentUser.applications));
-          } else {
-            console.error("Token decoding failed");
-            setCurrentUser(null);
-          }
+          let { username } = jwt.decode(token);
+          // put the token on the Api class so it can use it to call the API.
+          JoblyApi.token = token;
+          let currentUser = await JoblyApi.getCurrentUser(username);
+          setCurrentUser(currentUser);
+          setApplicationIds(new Set(currentUser.applications));
         } catch (err) {
           console.error("App loadUserInfo: problem loading", err);
           setCurrentUser(null);
@@ -69,8 +64,10 @@ function App() {
       }
       setInfoLoaded(true);
     }
-    
 
+    // set infoLoaded to false while async getCurrentUser runs; once the
+    // data is fetched (or even if an error happens!), this will be set back
+    // to false to control the spinner.
     setInfoLoaded(false);
     getCurrentUser();
   }, [token]);
@@ -83,11 +80,13 @@ function App() {
 
   /** Handles site-wide signup.
    *
-   * Automatically logs the user in upon signup.
+   * Automatically logs them in (set token) upon signup.
+   *
+   * Make sure you await this function and check its return value!
    */
   async function signup(signupData) {
     try {
-      const token = await JoblyApi.signup(signupData);
+      let token = await JoblyApi.signup(signupData);
       setToken(token);
       return { success: true };
     } catch (errors) {
@@ -96,10 +95,13 @@ function App() {
     }
   }
 
-  /** Handles site-wide login. */
+  /** Handles site-wide login.
+   *
+   * Make sure you await this function and check its return value!
+   */
   async function login(loginData) {
     try {
-      const token = await JoblyApi.login(loginData);
+      let token = await JoblyApi.login(loginData);
       setToken(token);
       return { success: true };
     } catch (errors) {
@@ -123,16 +125,15 @@ function App() {
   if (!infoLoaded) return <LoadingSpinner />;
 
   return (
-    <BrowserRouter>
-      <UserContext.Provider
-        value={{ currentUser, setCurrentUser, hasAppliedToJob, applyToJob }}
-      >
-        <div className="App">
-          <Navigation logout={logout} />
-          <Routes login={login} signup={signup} />
-        </div>
-      </UserContext.Provider>
-    </BrowserRouter>
+      <BrowserRouter>
+        <UserContext.Provider
+            value={{ currentUser, setCurrentUser, hasAppliedToJob, applyToJob }}>
+          <div className="App">
+            <Navigation logout={logout} />
+            <Routes login={login} signup={signup} />
+          </div>
+        </UserContext.Provider>
+      </BrowserRouter>
   );
 }
 
