@@ -9,108 +9,84 @@ const BASE_URL = process.env.REACT_APP_API_URL || 'https://jobly-backend-b589.on
  */
 
 class JoblyApi {
-  // The token used for authenticating API requests.
+  // the token for interactive with the API will be stored here.
   static token;
 
-  /**
-   * Generic method for making API requests.
-   * 
-   * @param {string} endpoint - The API endpoint.
-   * @param {object} [data={}] - The data to be sent with the request.
-   * @param {string} [method="get"] - The HTTP method (GET, POST, PATCH, etc.).
-   * @returns {Promise} - The data from the API response.
-   * @throws {Error} - If the API request fails.
-   */
   static async request(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, data, method);
-  
-    // Ensure there is no double slash in the URL
-    const url = `${BASE_URL}/${endpoint}`.replace(/\/{2,}/g, '/');
+
+    const url = `${BASE_URL}/${endpoint}`;
     const headers = { Authorization: `Bearer ${JoblyApi.token}` };
-    const params = method === "get" ? data : {};
-  
+    const params = (method === "get")
+        ? data
+        : {};
+
     try {
-      const response = await axios({ url, method, data, params, headers });
-      return response.data;
+      return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
       console.error("API Error:", err.response);
-      const message = err.response?.data?.error?.message || "An unexpected error occurred.";
+      let message = err.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
     }
   }
-  
 
   // Individual API routes
 
-  /** Get the current user by username. */
+  /** Get the current user. */
+
   static async getCurrentUser(username) {
-    const res = await this.request(`users/${username}`);
+    let res = await this.request(`users/${username}`);
     return res.user;
   }
 
-  /** Get a list of companies, optionally filtered by name. */
+  /** Get companies (filtered by name if not undefined) */
+
   static async getCompanies(name) {
-    const res = await this.request("companies", { name });
+    let res = await this.request("companies", { name });
     return res.companies;
   }
 
-  /** Get details on a specific company by its handle. */
+  /** Get details on a company by handle. */
+
   static async getCompany(handle) {
-    const res = await this.request(`companies/${handle}`);
+    let res = await this.request(`companies/${handle}`);
     return res.company;
   }
 
-  /** Get a list of jobs, optionally filtered by title. */
+  /** Get list of jobs (filtered by title if not undefined) */
+
   static async getJobs(title) {
-    const res = await this.request("jobs", { title });
+    let res = await this.request("jobs", { title });
     return res.jobs;
   }
 
-  /** Apply to a job by job ID for a specific user. */
+  /** Apply to a job */
+
   static async applyToJob(username, id) {
-    return await this.request(`users/${username}/jobs/${id}`, {}, "post");
+    await this.request(`users/${username}/jobs/${id}`, {}, "post");
   }
 
-  /** Get a token for login from username and password. */
+  /** Get token for login from username, password. */
+
   static async login(data) {
-    try {
-      const res = await this.request(`auth/token`, data, "post");
-      if (res.token) {
-        this.token = res.token;
-        return { success: true, token: res.token };
-      } else {
-        return { success: false, errors: res.errors || ["Login failed"] };
-      }
-    } catch (err) {
-      console.error("Login API error:", err.response || err.message);
-      return { success: false, errors: [err.message || "Login failed"] };
-    }
+    let res = await this.request(`auth/token`, data, "post");
+    return res.token;
   }
-  
-  
-  /** Register a new user. */
+
+  /** Signup for site. */
+
   static async signup(data) {
-    try {
-      const res = await this.request(`auth/register`, data, "post");
-      if (res.token) {
-        this.token = res.token;
-        return { success: true, token: res.token };
-      } else {
-        return { success: false, errors: ["Signup failed"] };
-      }
-    } catch (err) {
-      const errors = err.response?.data?.error?.message || err.response?.data || "An unexpected error occurred.";
-      console.error("Signup API error:", errors);
-      return { success: false, errors: Array.isArray(errors) ? errors : [errors] };
-    }
+    let res = await this.request(`auth/register`, data, "post");
+    return res.token;
   }
 
+  /** Save user profile page. */
 
-  /** Save user profile data for a specific user. */
   static async saveProfile(username, data) {
-    const res = await this.request(`users/${username}`, data, "patch");
+    let res = await this.request(`users/${username}`, data, "patch");
     return res.user;
   }
 }
+
 
 export default JoblyApi;
