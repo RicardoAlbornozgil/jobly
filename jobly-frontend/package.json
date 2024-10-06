@@ -17,7 +17,6 @@
     "react-app-rewired": "^2.2.1"
   },
   "scripts": {
-  "postinstall": "npm install",
   "start": "react-app-rewired start",
   "build": "react-app-rewired build",
   "test": "react-app-rewired test",
