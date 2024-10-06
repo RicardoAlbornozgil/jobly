@@ -1,14 +1,15 @@
 const webpack = require('webpack');
 
-module.exports = function override(config, env) {
+module.exports = function override(config) {
   config.resolve.fallback = {
     crypto: require.resolve('crypto-browserify'),
     stream: require.resolve('stream-browserify'),
     buffer: require.resolve('buffer/'),
     util: require.resolve('util/'),
-    process: require.resolve('process/browser'),
+    process: require.resolve('process/browser'), 
+    vm: require.resolve('vm-browserify')
   };
-  
+
   config.plugins.push(
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
