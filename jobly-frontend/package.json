@@ -19,10 +19,11 @@
   },
   "scripts": {
   "start": "react-scripts start",
-  "build": "webpack --config webpack.config.js",
+  "build": "npm install webpack-cli && webpack --config webpack.config.js",
   "test": "react-scripts test",
   "eject": "react-scripts eject"
 }
+
 ,
   "eslintConfig": {
     "extends": [
