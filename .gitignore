@@ -105,3 +105,5 @@ Dockerfile.dev
 # System Files
 .DS_Store
 Thumbs.db
+
+__snapshots__
