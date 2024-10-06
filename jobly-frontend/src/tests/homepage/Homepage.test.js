@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import Home from "./Homepage";
+import Home from "../../components/homepage/Homepage";
 import { UserProvider } from "../testUtils";
 
 

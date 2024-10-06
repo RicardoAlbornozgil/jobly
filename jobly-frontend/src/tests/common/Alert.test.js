@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import Alert from "./Alert";
+import Alert from "../../components/common/Alert.js";
+
 
 it("renders without crashing", function() {
   render(<Alert />);

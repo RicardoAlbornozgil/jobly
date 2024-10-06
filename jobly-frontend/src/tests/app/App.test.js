@@ -1,8 +1,9 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import App from '../../components/app/App';
 
-test('renders learn react link', () => {
+test('renders Jobly homepage', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const headerElements = screen.getAllByText(/Jobly/i); // Look for multiple "Jobly" instances
+  expect(headerElements.length).toBeGreaterThan(0); // Ensure there's at least one match
 });

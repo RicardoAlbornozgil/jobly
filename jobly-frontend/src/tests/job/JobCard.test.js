@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import JobCard from "./JobCard";
+import JobCard from "../../components/job/JobCard";
 import { UserProvider } from "../testUtils";
 
 

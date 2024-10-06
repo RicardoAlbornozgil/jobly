@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import Jobs from "./JobList";
+import Jobs from "../../components/job/JobList";
 
 it("renders without crashing", function() {
   render(<Jobs />);

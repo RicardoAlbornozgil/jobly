@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { UserProvider } from "../testUtils";
-import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "../../components/routes-nav/PrivateRoute";
 
 it("renders without crashing", function () {
   render(
