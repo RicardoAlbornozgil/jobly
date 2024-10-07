@@ -1,7 +1,7 @@
 /* App.css */
 
 body {
-  background-image: url('/public/images/jobly-background.webp');  background-size: cover;
+  background-image: url('/images/jobly-background.webp');  background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
